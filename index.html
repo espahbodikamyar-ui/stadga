@@ -83,18 +83,20 @@
     var ctx = canvas.getContext("2d");
     var COUNT = 80;
     var SIZE = 6;
-    var MAX_TRAIL = 5;
-    var TRAIL_OPACITY = [0.65, 0.45, 0.28, 0.15, 0.06];
-    var COLORS = [
-      [80, 40, 200],
-      [30, 80, 180],
-      [20, 100, 140],
-      [60, 20, 160],
+
+    // Hue-shifted color ramps: head -> trail (cooler/darker toward shadow)
+    // Each ramp: [head, t1, t2, t3, t4, t5]
+    var RAMPS = [
+      [ [110,70,240], [80,45,195], [55,28,150], [35,16,105], [20,8,65],  [10,4,30]  ],
+      [ [50,110,220], [30,80,175], [18,55,130], [10,34,88],  [6,18,52],  [3,8,25]   ],
+      [ [30,130,170], [18,100,135],[10,72,100], [6,48,68],   [3,28,40],  [1,12,18]  ],
+      [ [90,40,210],  [65,24,165], [44,14,122], [28,8,82],   [16,4,48],  [7,2,22]   ],
     ];
+
     var pixels = [];
 
     function makePixel(randomY) {
-      var c = COLORS[Math.floor(Math.random() * COLORS.length)];
+      var rampIdx = Math.floor(Math.random() * RAMPS.length);
       var cols = Math.floor(canvas.width / SIZE);
       var rows = Math.floor(canvas.height / SIZE);
       return {
@@ -103,9 +105,8 @@
         stepInterval: 18 + Math.floor(Math.random() * 30),
         timer: Math.floor(Math.random() * 30),
         pauseLeft: 0,
-        opacity: 0.85 + Math.random() * 0.15,
-        trail: [],
-        r: c[0], g: c[1], b: c[2]
+        ramp: RAMPS[rampIdx],
+        trail: []
       };
     }
 
@@ -129,11 +130,13 @@
 
         for (var j = 0; j < p.trail.length; j++) {
           var t = p.trail[j];
-          ctx.fillStyle = "rgba(" + p.r + "," + p.g + "," + p.b + "," + (TRAIL_OPACITY[j] * p.opacity) + ")";
+          var c = p.ramp[j + 1];
+          ctx.fillStyle = "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")";
           ctx.fillRect(t.x, t.y, SIZE, SIZE);
         }
 
-        ctx.fillStyle = "rgba(" + p.r + "," + p.g + "," + p.b + "," + p.opacity + ")";
+        var head = p.ramp[0];
+        ctx.fillStyle = "rgb(" + head[0] + "," + head[1] + "," + head[2] + ")";
         ctx.fillRect(p.x, p.y, SIZE, SIZE);
 
         if (p.pauseLeft > 0) {
@@ -142,7 +145,7 @@
           p.timer++;
           if (p.timer >= p.stepInterval) {
             p.trail.unshift({x: p.x, y: p.y});
-            if (p.trail.length > MAX_TRAIL) p.trail.pop();
+            if (p.trail.length > 5) p.trail.pop();
             p.y += SIZE;
             p.timer = 0;
             if (Math.random() < 0.25) {
