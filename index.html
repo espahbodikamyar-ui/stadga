@@ -83,7 +83,7 @@
     var ctx = canvas.getContext("2d");
     var COUNT = 100;
     var SIZE = 4;
-    var STEP_FRAMES = 3;
+    var STEP_FRAMES = 10;
     var COLORS = [
       [80, 40, 200],
       [30, 80, 180],
@@ -97,7 +97,7 @@
       return {
         x: Math.floor(Math.random() * Math.floor(canvas.width / SIZE)) * SIZE,
         y: randomY ? Math.floor(Math.random() * Math.floor(canvas.height / SIZE)) * SIZE : -SIZE,
-        speed: 1 + Math.floor(Math.random() * 3),
+        speed: 1,
         opacity: 0.5 + Math.random() * 0.5,
         timer: 0,
         r: c[0], g: c[1], b: c[2]
