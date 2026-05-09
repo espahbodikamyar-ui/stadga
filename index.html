@@ -27,9 +27,12 @@
       position: fixed;
       top: 0;
       left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.15;
+      opacity: 0.18;
+      image-rendering: pixelated;
     }
     .wordmark, .tagline, footer { position: relative; z-index: 1; }
     .wordmark {
@@ -83,10 +86,11 @@
   <script>
     const canvas = document.getElementById("grain");
     const ctx = canvas.getContext("2d");
+    const SCALE = 4;
 
     function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = Math.ceil(window.innerWidth / SCALE);
+      canvas.height = Math.ceil(window.innerHeight / SCALE);
     }
 
     function drawGrain() {
@@ -109,7 +113,7 @@
 
     let frame = 0;
     function loop() {
-      if (frame % 3 === 0) drawGrain();
+      if (frame % 8 === 0) drawGrain();
       frame++;
       requestAnimationFrame(loop);
     }
