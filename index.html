@@ -23,14 +23,11 @@
       padding: 2rem;
       overflow: hidden;
     }
-    .aurora {
+    canvas {
       position: fixed;
-      inset: -50%;
-      width: 200%;
-      height: 200%;
+      top: 0; left: 0;
       pointer-events: none;
       z-index: 0;
-      filter: blur(40px);
     }
     .wordmark, .tagline, footer { position: relative; z-index: 1; }
     .wordmark {
@@ -77,46 +74,64 @@
   </style>
 </head>
 <body>
-  <div class="aurora" id="aurora"></div>
+  <canvas id="rain"></canvas>
   <h1 class="wordmark">stadga</h1>
   <p class="tagline">Compliance that runs itself<span class="cursor"></span></p>
   <footer>stadga.co</footer>
   <script>
-    const aurora = document.getElementById("aurora");
-
-    const orbs = [
-      { x: 0.20, y: 0.60, r: "56, 20, 120",  base: 0.35, driftX: 0.7, driftY: 0.5, phase: 0.0 },
-      { x: 0.80, y: 0.30, r: "15, 60, 140",  base: 0.30, driftX: 0.5, driftY: 0.8, phase: 2.1 },
-      { x: 0.55, y: 0.80, r: "10, 80, 100",  base: 0.20, driftX: 0.9, driftY: 0.6, phase: 4.2 },
+    var canvas = document.getElementById("rain");
+    var ctx = canvas.getContext("2d");
+    var COUNT = 100;
+    var SIZE = 2;
+    var COLORS = [
+      [80, 40, 200],
+      [30, 80, 180],
+      [20, 100, 140],
+      [60, 20, 160],
     ];
+    var pixels = [];
 
-    let mx = 0.5, my = 0.5;
-
-    window.addEventListener("mousemove", e => {
-      mx = e.clientX / window.innerWidth;
-      my = e.clientY / window.innerHeight;
-    });
-
-    function loop(t) {
-      const s = t / 1000;
-      const bg = orbs.map(o => {
-        const px = (o.x + Math.sin(s * o.driftX * 0.12 + o.phase) * 0.06) * 100;
-        const py = (o.y + Math.cos(s * o.driftY * 0.10 + o.phase) * 0.06) * 100;
-
-        const dx = mx - o.x;
-        const dy = my - o.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const boost = Math.max(0, 1 - dist / 0.35) * 0.45;
-        const opacity = Math.min(o.base + boost, 0.85);
-
-        return ;
-      }).join(", ");
-
-      aurora.style.background = bg;
-      requestAnimationFrame(loop);
+    function makePixel(randomY) {
+      var c = COLORS[Math.floor(Math.random() * COLORS.length)];
+      return {
+        x: Math.random() * canvas.width,
+        y: randomY ? Math.random() * canvas.height : -SIZE,
+        speed: 0.4 + Math.random() * 0.8,
+        opacity: 0.15 + Math.random() * 0.4,
+        r: c[0], g: c[1], b: c[2]
+      };
     }
 
-    requestAnimationFrame(loop);
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function init() {
+      pixels = [];
+      for (var i = 0; i < COUNT; i++) {
+        pixels.push(makePixel(true));
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < pixels.length; i++) {
+        var p = pixels[i];
+        ctx.fillStyle = "rgba(" + p.r + "," + p.g + "," + p.b + "," + p.opacity + ")";
+        ctx.fillRect(Math.round(p.x), Math.round(p.y), SIZE, SIZE);
+        p.y += p.speed;
+        if (p.y > canvas.height) {
+          pixels[i] = makePixel(false);
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    init();
+    window.addEventListener("resize", function() { resize(); init(); });
+    draw();
   </script>
 </body>
 </html>
