@@ -81,25 +81,28 @@
   <script>
     var canvas = document.getElementById("rain");
     var ctx = canvas.getContext("2d");
-    var COUNT = 100;
-    var SIZE = 4;
-    var STEP_FRAMES = 10;
+    var COUNT = 80;
+    var SIZE = 6;
     var COLORS = [
       [80, 40, 200],
       [30, 80, 180],
       [20, 100, 140],
       [60, 20, 160],
     ];
+
     var pixels = [];
 
     function makePixel(randomY) {
       var c = COLORS[Math.floor(Math.random() * COLORS.length)];
+      var cols = Math.floor(canvas.width / SIZE);
+      var rows = Math.floor(canvas.height / SIZE);
       return {
-        x: Math.floor(Math.random() * Math.floor(canvas.width / SIZE)) * SIZE,
-        y: randomY ? Math.floor(Math.random() * Math.floor(canvas.height / SIZE)) * SIZE : -SIZE,
-        speed: 1,
-        opacity: 0.5 + Math.random() * 0.5,
-        timer: 0,
+        x: Math.floor(Math.random() * cols) * SIZE,
+        y: randomY ? Math.floor(Math.random() * rows) * SIZE : -SIZE,
+        stepInterval: 18 + Math.floor(Math.random() * 30),
+        timer: Math.floor(Math.random() * 30),
+        pauseLeft: 0,
+        opacity: 0.45 + Math.random() * 0.55,
         r: c[0], g: c[1], b: c[2]
       };
     }
@@ -116,9 +119,8 @@
       }
     }
 
-    var frame = 0;
     function draw() {
-      ctx.fillStyle = "rgba(2,6,24,0.15)";
+      ctx.fillStyle = "rgba(2,6,24,0.12)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       for (var i = 0; i < pixels.length; i++) {
@@ -126,10 +128,17 @@
         ctx.fillStyle = "rgba(" + p.r + "," + p.g + "," + p.b + "," + p.opacity + ")";
         ctx.fillRect(p.x, p.y, SIZE, SIZE);
 
-        p.timer++;
-        if (p.timer >= STEP_FRAMES) {
-          p.y += SIZE * p.speed;
-          p.timer = 0;
+        if (p.pauseLeft > 0) {
+          p.pauseLeft--;
+        } else {
+          p.timer++;
+          if (p.timer >= p.stepInterval) {
+            p.y += SIZE;
+            p.timer = 0;
+            if (Math.random() < 0.25) {
+              p.pauseLeft = 20 + Math.floor(Math.random() * 50);
+            }
+          }
         }
 
         if (p.y > canvas.height) {
@@ -137,7 +146,6 @@
         }
       }
 
-      frame++;
       requestAnimationFrame(draw);
     }
 
