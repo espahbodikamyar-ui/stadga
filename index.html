@@ -83,6 +83,7 @@
     var ctx = canvas.getContext("2d");
     var COUNT = 100;
     var SIZE = 4;
+    var STEP_FRAMES = 3;
     var COLORS = [
       [80, 40, 200],
       [30, 80, 180],
@@ -94,10 +95,11 @@
     function makePixel(randomY) {
       var c = COLORS[Math.floor(Math.random() * COLORS.length)];
       return {
-        x: Math.random() * canvas.width,
-        y: randomY ? Math.random() * canvas.height : -SIZE,
-        speed: 0.4 + Math.random() * 0.8,
-        opacity: 0.15 + Math.random() * 0.4,
+        x: Math.floor(Math.random() * Math.floor(canvas.width / SIZE)) * SIZE,
+        y: randomY ? Math.floor(Math.random() * Math.floor(canvas.height / SIZE)) * SIZE : -SIZE,
+        speed: 1 + Math.floor(Math.random() * 3),
+        opacity: 0.5 + Math.random() * 0.5,
+        timer: 0,
         r: c[0], g: c[1], b: c[2]
       };
     }
@@ -114,17 +116,28 @@
       }
     }
 
+    var frame = 0;
     function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(2,6,24,0.15)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       for (var i = 0; i < pixels.length; i++) {
         var p = pixels[i];
         ctx.fillStyle = "rgba(" + p.r + "," + p.g + "," + p.b + "," + p.opacity + ")";
-        ctx.fillRect(Math.round(p.x), Math.round(p.y), SIZE, SIZE);
-        p.y += p.speed;
+        ctx.fillRect(p.x, p.y, SIZE, SIZE);
+
+        p.timer++;
+        if (p.timer >= STEP_FRAMES) {
+          p.y += SIZE * p.speed;
+          p.timer = 0;
+        }
+
         if (p.y > canvas.height) {
           pixels[i] = makePixel(false);
         }
       }
+
+      frame++;
       requestAnimationFrame(draw);
     }
 
