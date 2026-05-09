@@ -83,13 +83,14 @@
     var ctx = canvas.getContext("2d");
     var COUNT = 80;
     var SIZE = 6;
+    var MAX_TRAIL = 5;
+    var TRAIL_OPACITY = [0.65, 0.45, 0.28, 0.15, 0.06];
     var COLORS = [
       [80, 40, 200],
       [30, 80, 180],
       [20, 100, 140],
       [60, 20, 160],
     ];
-
     var pixels = [];
 
     function makePixel(randomY) {
@@ -102,7 +103,8 @@
         stepInterval: 18 + Math.floor(Math.random() * 30),
         timer: Math.floor(Math.random() * 30),
         pauseLeft: 0,
-        opacity: 0.45 + Math.random() * 0.55,
+        opacity: 0.85 + Math.random() * 0.15,
+        trail: [],
         r: c[0], g: c[1], b: c[2]
       };
     }
@@ -120,11 +122,17 @@
     }
 
     function draw() {
-      ctx.fillStyle = "rgba(2,6,24,0.12)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       for (var i = 0; i < pixels.length; i++) {
         var p = pixels[i];
+
+        for (var j = 0; j < p.trail.length; j++) {
+          var t = p.trail[j];
+          ctx.fillStyle = "rgba(" + p.r + "," + p.g + "," + p.b + "," + (TRAIL_OPACITY[j] * p.opacity) + ")";
+          ctx.fillRect(t.x, t.y, SIZE, SIZE);
+        }
+
         ctx.fillStyle = "rgba(" + p.r + "," + p.g + "," + p.b + "," + p.opacity + ")";
         ctx.fillRect(p.x, p.y, SIZE, SIZE);
 
@@ -133,6 +141,8 @@
         } else {
           p.timer++;
           if (p.timer >= p.stepInterval) {
+            p.trail.unshift({x: p.x, y: p.y});
+            if (p.trail.length > MAX_TRAIL) p.trail.pop();
             p.y += SIZE;
             p.timer = 0;
             if (Math.random() < 0.25) {
