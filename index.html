@@ -11,15 +11,69 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root { --bg: #020618; --fg: #f8fafc; --muted: #475569; --border: #1e293b; }
     html, body { height: 100%; }
-    body { background: var(--bg); color: var(--fg); font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
-    .wordmark { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 300; letter-spacing: -0.04em; color: var(--fg); line-height: 1; }
-    .tagline { margin-top: 1.25rem; font-family: "Geist Mono", monospace; font-size: clamp(0.7rem, 2vw, 0.8rem); font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-    footer { position: fixed; bottom: 2rem; font-family: "Geist Mono", monospace; font-size: 0.7rem; color: var(--border); letter-spacing: 0.05em; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .wordmark {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      color: var(--fg);
+      line-height: 1;
+      opacity: 0;
+      animation: fadein 0.8s ease forwards;
+    }
+    .tagline {
+      margin-top: 1.25rem;
+      font-family: "Geist Mono", monospace;
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadein 0.8s ease 0.3s forwards;
+    }
+    .cursor {
+      display: inline-block;
+      width: 1px;
+      height: 0.85em;
+      background: var(--muted);
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    footer {
+      position: fixed;
+      bottom: 2rem;
+      font-family: "Geist Mono", monospace;
+      font-size: 0.7rem;
+      color: var(--border);
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadein 0.8s ease 0.6s forwards;
+    }
+    @keyframes fadein {
+      to { opacity: 1; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
   </style>
 </head>
 <body>
   <h1 class="wordmark">stadga</h1>
-  <p class="tagline">Compliance that runs itself.</p>
+  <p class="tagline">Compliance that runs itself.<span class="cursor"></span></p>
   <footer>stadga.co</footer>
 </body>
 </html>
