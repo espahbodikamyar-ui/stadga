@@ -39,26 +39,26 @@
       filter: blur(40px);
     }
 
+    .aurora-mouse {
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle, rgba(70, 30, 160, 0.25) 0%, transparent 70%);
+      filter: blur(60px);
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: 50%;
+    }
+
     @keyframes aurora {
       0%   { transform: translate(0%, 0%) scale(1); }
       25%  { transform: translate(3%, -4%) scale(1.03); }
       50%  { transform: translate(-4%, 3%) scale(0.97); }
       75%  { transform: translate(4%, 4%) scale(1.02); }
       100% { transform: translate(-3%, -3%) scale(1); }
-    }
-
-    .cursor-glow {
-      position: fixed;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      background: radial-gradient(circle, rgba(100, 60, 200, 0.15) 0%, transparent 70%);
-      filter: blur(20px);
-      transform: translate(-50%, -50%);
-      transition: opacity 0.3s ease;
-      opacity: 0;
     }
 
     .wordmark, .tagline, footer { position: relative; z-index: 1; }
@@ -108,33 +108,28 @@
 </head>
 <body>
   <div class="aurora"></div>
-  <div class="cursor-glow" id="glow"></div>
+  <div class="aurora-mouse" id="aurora-mouse"></div>
   <h1 class="wordmark">stadga</h1>
   <p class="tagline">Compliance that runs itself<span class="cursor"></span></p>
   <footer>stadga.co</footer>
   <script>
-    const glow = document.getElementById("glow");
+    const el = document.getElementById("aurora-mouse");
     let mx = window.innerWidth / 2;
     let my = window.innerHeight / 2;
     let gx = mx, gy = my;
-    let visible = false;
 
     window.addEventListener("mousemove", e => {
       mx = e.clientX;
       my = e.clientY;
-      if (!visible) {
-        glow.style.opacity = "1";
-        visible = true;
-      }
     });
 
     function lerp(a, b, t) { return a + (b - a) * t; }
 
     function loop() {
-      gx = lerp(gx, mx, 0.06);
-      gy = lerp(gy, my, 0.06);
-      glow.style.left = gx + "px";
-      glow.style.top = gy + "px";
+      gx = lerp(gx, mx, 0.03);
+      gy = lerp(gy, my, 0.03);
+      el.style.left = gx + "px";
+      el.style.top = gy + "px";
       requestAnimationFrame(loop);
     }
     loop();
