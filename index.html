@@ -9,62 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg: #020618;
-      --fg: #f8fafc;
-      --muted: #475569;
-      --border: #1e293b;
-    }
-
-    html, body {
-      height: 100%;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
-    }
-
-    .wordmark {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 300;
-      letter-spacing: -0.04em;
-      color: var(--fg);
-      line-height: 1;
-    }
-
-    .tagline {
-      margin-top: 1.25rem;
-      font-family: "Geist Mono", monospace;
-      font-size: clamp(0.7rem, 2vw, 0.8rem);
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    footer {
-      position: fixed;
-      bottom: 2rem;
-      font-family: "Geist Mono", monospace;
-      font-size: 0.7rem;
-      color: var(--border);
-      letter-spacing: 0.05em;
-    }
+    :root { --bg: #020618; --fg: #f8fafc; --muted: #475569; --border: #1e293b; }
+    html, body { height: 100%; }
+    body { background: var(--bg); color: var(--fg); font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+    .wordmark { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 300; letter-spacing: -0.04em; color: var(--fg); line-height: 1; }
+    .tagline { margin-top: 1.25rem; font-family: "Geist Mono", monospace; font-size: clamp(0.7rem, 2vw, 0.8rem); font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    footer { position: fixed; bottom: 2rem; font-family: "Geist Mono", monospace; font-size: 0.7rem; color: var(--border); letter-spacing: 0.05em; }
   </style>
 </head>
 <body>
   <h1 class="wordmark">stadga</h1>
-  <p class="tagline">Something is coming</p>
+  <p class="tagline">Compliance that runs itself.</p>
   <footer>stadga.co</footer>
 </body>
 </html>
