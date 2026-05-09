@@ -23,7 +23,6 @@
       padding: 2rem;
       overflow: hidden;
     }
-
     .aurora {
       position: fixed;
       inset: -50%;
@@ -31,38 +30,9 @@
       height: 200%;
       pointer-events: none;
       z-index: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 20% 60%, rgba(56, 20, 120, 0.35) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 80% 30%, rgba(15, 60, 140, 0.3) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 50% at 55% 80%, rgba(10, 80, 100, 0.2) 0%, transparent 70%);
-      animation: aurora 18s ease-in-out infinite alternate;
       filter: blur(40px);
     }
-
-    .aurora-mouse {
-      position: fixed;
-      width: 700px;
-      height: 700px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      background: radial-gradient(circle, rgba(70, 30, 160, 0.25) 0%, transparent 70%);
-      filter: blur(60px);
-      transform: translate(-50%, -50%);
-      left: 50%;
-      top: 50%;
-    }
-
-    @keyframes aurora {
-      0%   { transform: translate(0%, 0%) scale(1); }
-      25%  { transform: translate(3%, -4%) scale(1.03); }
-      50%  { transform: translate(-4%, 3%) scale(0.97); }
-      75%  { transform: translate(4%, 4%) scale(1.02); }
-      100% { transform: translate(-3%, -3%) scale(1); }
-    }
-
     .wordmark, .tagline, footer { position: relative; z-index: 1; }
-
     .wordmark {
       font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 300;
@@ -107,32 +77,46 @@
   </style>
 </head>
 <body>
-  <div class="aurora"></div>
-  <div class="aurora-mouse" id="aurora-mouse"></div>
+  <div class="aurora" id="aurora"></div>
   <h1 class="wordmark">stadga</h1>
   <p class="tagline">Compliance that runs itself<span class="cursor"></span></p>
   <footer>stadga.co</footer>
   <script>
-    const el = document.getElementById("aurora-mouse");
-    let mx = window.innerWidth / 2;
-    let my = window.innerHeight / 2;
-    let gx = mx, gy = my;
+    const aurora = document.getElementById("aurora");
+
+    const orbs = [
+      { x: 0.20, y: 0.60, r: "56, 20, 120",  base: 0.35, driftX: 0.7, driftY: 0.5, phase: 0.0 },
+      { x: 0.80, y: 0.30, r: "15, 60, 140",  base: 0.30, driftX: 0.5, driftY: 0.8, phase: 2.1 },
+      { x: 0.55, y: 0.80, r: "10, 80, 100",  base: 0.20, driftX: 0.9, driftY: 0.6, phase: 4.2 },
+    ];
+
+    let mx = 0.5, my = 0.5;
 
     window.addEventListener("mousemove", e => {
-      mx = e.clientX;
-      my = e.clientY;
+      mx = e.clientX / window.innerWidth;
+      my = e.clientY / window.innerHeight;
     });
 
-    function lerp(a, b, t) { return a + (b - a) * t; }
+    function loop(t) {
+      const s = t / 1000;
+      const bg = orbs.map(o => {
+        const px = (o.x + Math.sin(s * o.driftX * 0.12 + o.phase) * 0.06) * 100;
+        const py = (o.y + Math.cos(s * o.driftY * 0.10 + o.phase) * 0.06) * 100;
 
-    function loop() {
-      gx = lerp(gx, mx, 0.03);
-      gy = lerp(gy, my, 0.03);
-      el.style.left = gx + "px";
-      el.style.top = gy + "px";
+        const dx = mx - o.x;
+        const dy = my - o.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const boost = Math.max(0, 1 - dist / 0.35) * 0.45;
+        const opacity = Math.min(o.base + boost, 0.85);
+
+        return ;
+      }).join(", ");
+
+      aurora.style.background = bg;
       requestAnimationFrame(loop);
     }
-    loop();
+
+    requestAnimationFrame(loop);
   </script>
 </body>
 </html>
