@@ -10,7 +10,6 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
-
     body {
       background: #050505;
       color: #f8fafc;
@@ -18,7 +17,6 @@
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
     }
-
     .hero {
       display: flex;
       flex-direction: column;
@@ -28,7 +26,6 @@
       padding: 7rem 2rem 5rem;
       text-align: center;
     }
-
     .wordmark {
       font-family: "Geist", sans-serif;
       font-size: clamp(2.5rem, 8vw, 5rem);
@@ -39,7 +36,6 @@
       opacity: 0;
       animation: fadein 0.8s cubic-bezier(0.32,0.72,0,1) forwards;
     }
-
     .tagline {
       margin-top: 1.25rem;
       font-family: "Geist Mono", monospace;
@@ -50,7 +46,6 @@
       color: #475569;
       min-height: 1.2em;
     }
-
     .cursor {
       display: inline-block;
       width: 1px;
@@ -60,14 +55,11 @@
       vertical-align: middle;
       animation: blink 1s step-end infinite;
     }
-
-    /* Mission */
     .mission {
       max-width: 580px;
       margin: 0 auto;
       padding: 0 2rem 10rem;
     }
-
     .mission p {
       font-family: "Geist Mono", monospace;
       font-size: clamp(0.82rem, 2vw, 0.9rem);
@@ -79,69 +71,53 @@
       transform: translateY(14px);
       transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
     }
-
     .mission p.emphasis {
       color: #cbd5e1;
       font-weight: 400;
     }
-
-    .mission p.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Double-bezel image frame */
+    .mission p.visible { opacity: 1; transform: translateY(0); }
     .img-frame {
       margin: 2.5rem 0;
       opacity: 0;
       transform: translateY(14px);
       transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
     }
-
-    .img-frame.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    .img-frame.visible { opacity: 1; transform: translateY(0); }
+    .img-frame.wide .img-inner img { height: 280px; }
+    .img-frame.tall .img-inner img { height: 340px; }
     .img-outer {
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.06);
       border-radius: 16px;
       padding: 6px;
     }
-
     .img-inner {
       border-radius: 11px;
       overflow: hidden;
       position: relative;
     }
-
     .img-inner img {
       width: 100%;
       height: 220px;
       object-fit: cover;
       display: block;
-      filter: grayscale(100%) contrast(1.05) brightness(0.6);
+      filter: grayscale(100%) contrast(1.05) brightness(0.55);
     }
-
     .img-inner::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, transparent 40%, rgba(5,5,5,0.7) 100%);
+      background: linear-gradient(to bottom, transparent 40%, rgba(5,5,5,0.75) 100%);
     }
-
     .img-caption {
       font-family: "Geist Mono", monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
+      font-size: 0.58rem;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
       color: #1e293b;
-      margin-top: 0.75rem;
+      margin-top: 0.6rem;
       padding-left: 2px;
     }
-
-    /* Divider + CTA */
     .divider {
       width: 24px;
       height: 1px;
@@ -150,9 +126,7 @@
       opacity: 0;
       transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1);
     }
-
     .divider.visible { opacity: 1; }
-
     .cta-text {
       font-family: "Geist Mono", monospace;
       font-size: 0.8rem;
@@ -165,12 +139,7 @@
       transform: translateY(14px);
       transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
     }
-
-    .cta-text.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    .cta-text.visible { opacity: 1; transform: translateY(0); }
     .cta-link {
       font-family: "Geist Mono", monospace;
       font-size: 0.85rem;
@@ -184,10 +153,8 @@
       transform: translateY(14px);
       transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1), border-color 0.2s ease;
     }
-
     .cta-link:hover { border-color: #475569; }
     .cta-link.visible { opacity: 1; transform: translateY(0); }
-
     footer {
       position: fixed;
       bottom: 2rem;
@@ -200,7 +167,6 @@
       opacity: 0;
       animation: fadein 0.8s ease 0.4s forwards;
     }
-
     @keyframes fadein { to { opacity: 1; } }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   </style>
@@ -217,28 +183,56 @@
     <p>Every industry eventually confronts the same question: what if the thing holding you back could run itself?</p>
     <p>For finance, that thing is compliance.</p>
 
-    <div class="img-frame">
-      <div class="img-outer">
-        <div class="img-inner">
-          <img src="https://picsum.photos/seed/bankers1920/800/400" alt="Archive">
-        </div>
-      </div>
-      <p class="img-caption">Archive — European financial supervision, c. 1970s</p>
+    <div class="img-frame wide">
+      <div class="img-outer"><div class="img-inner">
+        <img src="https://picsum.photos/seed/bankers1920/800/400" alt="">
+      </div></div>
+      <p class="img-caption">Archive — c. 1970s</p>
     </div>
 
-    <p>For decades, it has been a system of records. Documents filed. Boxes checked. Regulations read and re-read by human eyes, translated into policy, monitored by hand. It works — until it doesn't.</p>
+    <p>For decades, it has been a system of records. Documents filed. Boxes checked. Regulations read and re-read by human eyes, translated into policy, monitored by hand.</p>
+    <p>It works — until it doesn't.</p>
+    <p>The problem is not the rules. It never was.</p>
+
+    <div class="img-frame">
+      <div class="img-outer"><div class="img-inner">
+        <img src="https://picsum.photos/seed/documents1955/800/500" alt="">
+      </div></div>
+      <p class="img-caption">Archive — Regulatory filing, unprocessed</p>
+    </div>
+
+    <p>Every year, trillions of euros move through European financial markets. Monitored by thousands of compliance officers. Flagged by systems built in the nineties. Reviewed by humans who were never meant to review this much.</p>
+    <p>Anti-money laundering. Fraud detection. Evidence collection. Regulatory reporting. Each a discipline in its own right. Each demanding the same thing: sustained, precise, human attention — at machine scale.</p>
+
+    <div class="img-frame tall">
+      <div class="img-outer"><div class="img-inner">
+        <img src="https://picsum.photos/seed/tradingfloor82/800/600" alt="">
+      </div></div>
+      <p class="img-caption">Archive — Trading floor, northern Europe</p>
+    </div>
+
+    <p>That tension is the problem. Not a lack of rules. Not a lack of people. A fundamental mismatch between the volume of what needs to be seen — and the bandwidth of those doing the seeing.</p>
+    <p>Somewhere right now, a banker is on a call that should be flagged. A transaction is flowing that matches a known pattern. A document is sitting in a queue that will determine whether a firm passes its next inspection.</p>
+
+    <div class="img-frame">
+      <div class="img-outer"><div class="img-inner">
+        <img src="https://picsum.photos/seed/phonecall1968/800/450" alt="">
+      </div></div>
+      <p class="img-caption">Archive — Compliance review in progress</p>
+    </div>
+
+    <p>Nobody will see it in time. Not because they don't care. Because there is simply too much.</p>
     <p class="emphasis">We believe this is about to change.</p>
     <p>Not because regulation is going away. Because intelligence is arriving. A new kind of system — one that doesn't just store what happened, but understands what should. That reads the rules the way a regulator writes them. That acts, adapts, and runs.</p>
 
-    <div class="img-frame">
-      <div class="img-outer">
-        <div class="img-inner">
-          <img src="https://picsum.photos/seed/regulation1950/800/400" alt="Archive">
-        </div>
-      </div>
-      <p class="img-caption">Archive — Regulatory documentation, Nordic financial authority</p>
+    <div class="img-frame wide">
+      <div class="img-outer"><div class="img-inner">
+        <img src="https://picsum.photos/seed/regulationdocs74/800/400" alt="">
+      </div></div>
+      <p class="img-caption">Archive — Supervisory directive, Finansinspektionen</p>
     </div>
 
+    <p>The firms that will define European finance in the next decade are not the ones with the most compliance staff. They are the ones that figured out how to make compliance disappear into the infrastructure — present everywhere, visible nowhere, running always.</p>
     <p class="emphasis">Compliance that doesn't wait to be told.</p>
     <p>This is what Stadga is building.</p>
 
@@ -252,7 +246,6 @@
   <footer>stadga.co</footer>
 
   <script>
-    // Typewriter
     var text = "Compliance that runs itself";
     var el = document.getElementById("typed");
     var i = 0;
@@ -265,21 +258,17 @@
     }
     setTimeout(type, 900);
 
-    // Scroll reveals with staggered delay
     var observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
           var index = parseInt(entry.target.getAttribute("data-index")) || 0;
-          setTimeout(function() {
-            entry.target.classList.add("visible");
-          }, index * 100);
+          setTimeout(function() { entry.target.classList.add("visible"); }, index * 80);
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
 
-    var els = document.querySelectorAll(".mission p, .img-frame, .divider, .cta-text, .cta-link");
-    els.forEach(function(el, i) {
+    document.querySelectorAll(".mission p, .img-frame, .divider, .cta-text, .cta-link").forEach(function(el, i) {
       el.setAttribute("data-index", i);
       observer.observe(el);
     });
