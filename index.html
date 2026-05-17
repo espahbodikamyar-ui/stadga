@@ -46,8 +46,7 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #475569;
-      opacity: 0;
-      animation: fadein 0.8s ease 0.3s forwards;
+      min-height: 1.2em;
     }
 
     .cursor {
@@ -55,7 +54,7 @@
       width: 1px;
       height: 0.85em;
       background: #475569;
-      margin-left: 3px;
+      margin-left: 2px;
       vertical-align: middle;
       animation: blink 1s step-end infinite;
     }
@@ -64,8 +63,6 @@
       max-width: 600px;
       margin: 0 auto;
       padding: 0 2rem 8rem;
-      opacity: 0;
-      animation: fadein 0.8s ease 0.6s forwards;
     }
 
     .mission p {
@@ -74,6 +71,9 @@
       line-height: 1.8;
       color: #94a3b8;
       margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
     .mission p.emphasis {
@@ -81,11 +81,22 @@
       font-weight: 400;
     }
 
+    .mission p.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .mission .divider {
       width: 24px;
       height: 1px;
       background: #1e293b;
       margin: 2.5rem 0;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+
+    .mission .divider.visible {
+      opacity: 1;
     }
 
     .mission .cta-text {
@@ -94,6 +105,14 @@
       letter-spacing: 0.06em;
       color: #64748b;
       margin-bottom: 0.75rem;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .mission .cta-text.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .mission a {
@@ -105,11 +124,20 @@
       border-bottom: 1px solid #1e293b;
       padding-bottom: 2px;
       transition: border-color 0.2s ease, color 0.2s ease;
+      opacity: 0;
+      display: inline-block;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease, border-color 0.2s ease;
     }
 
     .mission a:hover {
       color: #fff;
       border-color: #475569;
+    }
+
+    .mission a.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     footer {
@@ -122,7 +150,7 @@
       color: #1e293b;
       letter-spacing: 0.05em;
       opacity: 0;
-      animation: fadein 0.8s ease 0.9s forwards;
+      animation: fadein 0.8s ease 0.4s forwards;
     }
 
     @keyframes fadein { to { opacity: 1; } }
@@ -132,7 +160,7 @@
 <body>
   <div class="hero">
     <h1 class="wordmark">stadga</h1>
-    <p class="tagline">Compliance that runs itself<span class="cursor"></span></p>
+    <p class="tagline"><span id="typed"></span><span class="cursor"></span></p>
   </div>
 
   <div class="mission">
@@ -149,5 +177,42 @@
   </div>
 
   <footer>stadga.co</footer>
+
+  <script>
+    // Typewriter
+    var text = "Compliance that runs itself";
+    var el = document.getElementById("typed");
+    var i = 0;
+    var delay = 900;
+
+    function type() {
+      if (i <= text.length) {
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(type, i === 1 ? delay : 55);
+      }
+    }
+    setTimeout(type, delay);
+
+    // Scroll reveals
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var index = parseInt(el.getAttribute("data-index")) || 0;
+          setTimeout(function() {
+            el.classList.add("visible");
+          }, index * 120);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    var els = document.querySelectorAll(".mission p, .mission .divider, .mission a");
+    els.forEach(function(el, i) {
+      el.setAttribute("data-index", i);
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
