@@ -6,14 +6,15 @@
   <title>Stadga</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
+
     body {
-      background: #020618;
+      background: #050505;
       color: #f8fafc;
-      font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: "Geist Mono", monospace;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
     }
@@ -24,18 +25,19 @@
       align-items: center;
       justify-content: center;
       min-height: 50vh;
-      padding: 6rem 2rem 4rem;
+      padding: 7rem 2rem 5rem;
       text-align: center;
     }
 
     .wordmark {
+      font-family: "Geist", sans-serif;
       font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 300;
       letter-spacing: -0.04em;
       color: #f8fafc;
       line-height: 1;
       opacity: 0;
-      animation: fadein 0.8s ease forwards;
+      animation: fadein 0.8s cubic-bezier(0.32,0.72,0,1) forwards;
     }
 
     .tagline {
@@ -59,21 +61,23 @@
       animation: blink 1s step-end infinite;
     }
 
+    /* Mission */
     .mission {
-      max-width: 600px;
+      max-width: 580px;
       margin: 0 auto;
-      padding: 0 2rem 8rem;
+      padding: 0 2rem 10rem;
     }
 
     .mission p {
-      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      font-family: "Geist Mono", monospace;
+      font-size: clamp(0.82rem, 2vw, 0.9rem);
       font-weight: 300;
-      line-height: 1.8;
-      color: #94a3b8;
-      margin-bottom: 1.5rem;
+      line-height: 1.9;
+      color: #64748b;
+      margin-bottom: 1.75rem;
       opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(14px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
     }
 
     .mission p.emphasis {
@@ -86,36 +90,88 @@
       transform: translateY(0);
     }
 
-    .mission .divider {
-      width: 24px;
-      height: 1px;
-      background: #1e293b;
+    /* Double-bezel image frame */
+    .img-frame {
       margin: 2.5rem 0;
       opacity: 0;
-      transition: opacity 0.7s ease;
+      transform: translateY(14px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
     }
 
-    .mission .divider.visible {
-      opacity: 1;
-    }
-
-    .mission .cta-text {
-      font-family: "Geist Mono", monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.06em;
-      color: #64748b;
-      margin-bottom: 0.75rem;
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .mission .cta-text.visible {
+    .img-frame.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .mission a {
+    .img-outer {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 6px;
+    }
+
+    .img-inner {
+      border-radius: 11px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .img-inner img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(100%) contrast(1.05) brightness(0.6);
+    }
+
+    .img-inner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(5,5,5,0.7) 100%);
+    }
+
+    .img-caption {
+      font-family: "Geist Mono", monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1e293b;
+      margin-top: 0.75rem;
+      padding-left: 2px;
+    }
+
+    /* Divider + CTA */
+    .divider {
+      width: 24px;
+      height: 1px;
+      background: #1e293b;
+      margin: 3rem 0;
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .divider.visible { opacity: 1; }
+
+    .cta-text {
+      font-family: "Geist Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      color: #64748b;
+      margin-bottom: 1rem;
+      line-height: 1.8;
+      font-weight: 300;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .cta-text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cta-link {
       font-family: "Geist Mono", monospace;
       font-size: 0.85rem;
       letter-spacing: 0.04em;
@@ -123,22 +179,14 @@
       text-decoration: none;
       border-bottom: 1px solid #1e293b;
       padding-bottom: 2px;
-      transition: border-color 0.2s ease, color 0.2s ease;
       opacity: 0;
       display: inline-block;
-      transform: translateY(16px);
-      transition: opacity 0.7s ease, transform 0.7s ease, border-color 0.2s ease;
+      transform: translateY(14px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1), border-color 0.2s ease;
     }
 
-    .mission a:hover {
-      color: #fff;
-      border-color: #475569;
-    }
-
-    .mission a.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .cta-link:hover { border-color: #475569; }
+    .cta-link.visible { opacity: 1; transform: translateY(0); }
 
     footer {
       position: fixed;
@@ -158,22 +206,47 @@
   </style>
 </head>
 <body>
+
   <div class="hero">
     <h1 class="wordmark">stadga</h1>
     <p class="tagline"><span id="typed"></span><span class="cursor"></span></p>
   </div>
 
   <div class="mission">
+
     <p>Every industry eventually confronts the same question: what if the thing holding you back could run itself?</p>
     <p>For finance, that thing is compliance.</p>
+
+    <div class="img-frame">
+      <div class="img-outer">
+        <div class="img-inner">
+          <img src="https://picsum.photos/seed/bankers1920/800/400" alt="Archive">
+        </div>
+      </div>
+      <p class="img-caption">Archive — European financial supervision, c. 1970s</p>
+    </div>
+
     <p>For decades, it has been a system of records. Documents filed. Boxes checked. Regulations read and re-read by human eyes, translated into policy, monitored by hand. It works — until it doesn't.</p>
     <p class="emphasis">We believe this is about to change.</p>
     <p>Not because regulation is going away. Because intelligence is arriving. A new kind of system — one that doesn't just store what happened, but understands what should. That reads the rules the way a regulator writes them. That acts, adapts, and runs.</p>
+
+    <div class="img-frame">
+      <div class="img-outer">
+        <div class="img-inner">
+          <img src="https://picsum.photos/seed/regulation1950/800/400" alt="Archive">
+        </div>
+      </div>
+      <p class="img-caption">Archive — Regulatory documentation, Nordic financial authority</p>
+    </div>
+
     <p class="emphasis">Compliance that doesn't wait to be told.</p>
     <p>This is what Stadga is building.</p>
+
     <div class="divider"></div>
+
     <p class="cta-text">If you're building the future of regulated finance — or living inside it — we want to hear from you.</p>
-    <a href="mailto:contact@stadga.co">contact@stadga.co</a>
+    <a class="cta-link" href="mailto:contact@stadga.co">contact@stadga.co</a>
+
   </div>
 
   <footer>stadga.co</footer>
@@ -183,36 +256,34 @@
     var text = "Compliance that runs itself";
     var el = document.getElementById("typed");
     var i = 0;
-    var delay = 900;
-
     function type() {
       if (i <= text.length) {
         el.textContent = text.slice(0, i);
         i++;
-        setTimeout(type, i === 1 ? delay : 55);
+        setTimeout(type, i === 1 ? 900 : 55);
       }
     }
-    setTimeout(type, delay);
+    setTimeout(type, 900);
 
-    // Scroll reveals
+    // Scroll reveals with staggered delay
     var observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
-          var el = entry.target;
-          var index = parseInt(el.getAttribute("data-index")) || 0;
+          var index = parseInt(entry.target.getAttribute("data-index")) || 0;
           setTimeout(function() {
-            el.classList.add("visible");
-          }, index * 120);
-          observer.unobserve(el);
+            entry.target.classList.add("visible");
+          }, index * 100);
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
 
-    var els = document.querySelectorAll(".mission p, .mission .divider, .mission a");
+    var els = document.querySelectorAll(".mission p, .img-frame, .divider, .cta-text, .cta-link");
     els.forEach(function(el, i) {
       el.setAttribute("data-index", i);
       observer.observe(el);
     });
   </script>
+
 </body>
 </html>
