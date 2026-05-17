@@ -15,13 +15,19 @@
       color: #f8fafc;
       font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .hero {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
+      min-height: 50vh;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
     }
+
     .wordmark {
       font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 300;
@@ -31,6 +37,7 @@
       opacity: 0;
       animation: fadein 0.8s ease forwards;
     }
+
     .tagline {
       margin-top: 1.25rem;
       font-family: "Geist Mono", monospace;
@@ -42,6 +49,7 @@
       opacity: 0;
       animation: fadein 0.8s ease 0.3s forwards;
     }
+
     .cursor {
       display: inline-block;
       width: 1px;
@@ -51,23 +59,95 @@
       vertical-align: middle;
       animation: blink 1s step-end infinite;
     }
+
+    .mission {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 2rem 8rem;
+      opacity: 0;
+      animation: fadein 0.8s ease 0.6s forwards;
+    }
+
+    .mission p {
+      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: #94a3b8;
+      margin-bottom: 1.5rem;
+    }
+
+    .mission p.emphasis {
+      color: #cbd5e1;
+      font-weight: 400;
+    }
+
+    .mission .divider {
+      width: 24px;
+      height: 1px;
+      background: #1e293b;
+      margin: 2.5rem 0;
+    }
+
+    .mission .cta-text {
+      font-family: "Geist Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      margin-bottom: 0.75rem;
+    }
+
+    .mission a {
+      font-family: "Geist Mono", monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      color: #f8fafc;
+      text-decoration: none;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 2px;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .mission a:hover {
+      color: #fff;
+      border-color: #475569;
+    }
+
     footer {
       position: fixed;
       bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
       font-family: "Geist Mono", monospace;
       font-size: 0.7rem;
       color: #1e293b;
       letter-spacing: 0.05em;
       opacity: 0;
-      animation: fadein 0.8s ease 0.6s forwards;
+      animation: fadein 0.8s ease 0.9s forwards;
     }
+
     @keyframes fadein { to { opacity: 1; } }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   </style>
 </head>
 <body>
-  <h1 class="wordmark">stadga</h1>
-  <p class="tagline">Compliance that runs itself<span class="cursor"></span></p>
+  <div class="hero">
+    <h1 class="wordmark">stadga</h1>
+    <p class="tagline">Compliance that runs itself<span class="cursor"></span></p>
+  </div>
+
+  <div class="mission">
+    <p>Every industry eventually confronts the same question: what if the thing holding you back could run itself?</p>
+    <p>For finance, that thing is compliance.</p>
+    <p>For decades, it has been a system of records. Documents filed. Boxes checked. Regulations read and re-read by human eyes, translated into policy, monitored by hand. It works — until it doesn't.</p>
+    <p class="emphasis">We believe this is about to change.</p>
+    <p>Not because regulation is going away. Because intelligence is arriving. A new kind of system — one that doesn't just store what happened, but understands what should. That reads the rules the way a regulator writes them. That acts, adapts, and runs.</p>
+    <p class="emphasis">Compliance that doesn't wait to be told.</p>
+    <p>This is what Stadga is building.</p>
+    <div class="divider"></div>
+    <p class="cta-text">If you're building the future of regulated finance — or living inside it — we want to hear from you.</p>
+    <a href="mailto:contact@stadga.co">contact@stadga.co</a>
+  </div>
+
   <footer>stadga.co</footer>
 </body>
 </html>
